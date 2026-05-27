@@ -1,0 +1,176 @@
+<div style="padding: 20px; font-family: Arial, sans-serif; background-color: #fff;">
+  
+  <div style="display: flex; justify-content: space-between; align-items: center; background-color: #333; padding: 12px 20px; color: white; margin-bottom: 20px;">
+    <span style="font-weight: bold;">Panel de Control de Usuarios</span>
+    <button (click)="ejecutarLogout()" style="background: none; border: 1px solid white; color: white; padding: 6px 12px; cursor: pointer; border-radius: 4px;">Log Out</button>
+  </div>
+
+  <div style="margin-bottom: 20px; display: flex; gap: 10px;">
+    <button (click)="abrirModalCrear()" style="background-color: #0275d8; color: white; padding: 10px 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Create</button>
+    <button (click)="abrirModalEditar()" style="background-color: #f0ad4e; color: white; padding: 10px 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Update</button>
+    <button (click)="ejecutarBorrado()" style="background-color: #d9534f; color: white; padding: 10px 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Borrar</button>
+  </div>
+
+  <div style="max-height: 250px; overflow-y: auto; border: 1px solid #ccc; border-radius: 4px;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px;">
+      <thead style="background-color: #d9534f; color: white; position: sticky; top: 0; z-index: 10;">
+        <tr>
+          <th style="padding: 10px; border: 1px solid #ddd;">Select</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Gender</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">username</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Full Name</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Creation</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Age</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Breakfast</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Job Position</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Main Address</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Extra Addresses</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of listaUsuarios" style="border-bottom: 1px solid #eee;">
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
+            <input type="radio" name="usuarioSeleccionado" [checked]="u.id === usuarioSeleccionadoId" (change)="cambiarSeleccion(u.id)">
+          </td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-size: 16px; font-weight: bold;">
+            <span *ngIf="u.nombreGenero === 'Hombre'">♂</span>
+            <span *ngIf="u.nombreGenero === 'Mujer'">♀</span>
+            <span *ngIf="u.nombreGenero !== 'Hombre' && u.nombreGenero !== 'Mujer'">⚧</span>
+          </td>
+          <td style="padding: 10px; border: 1px solid #ddd;">{{ u.nickUsuario }}</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">
+            {{ u.primerApellido }}{{ u.segundoApellido ? ' ' + u.segundoApellido : '' }}, {{ u.nombre }}
+          </td>
+          <td style="padding: 10px; border: 1px solid #ddd;">
+            {{ u.fechaHoraCreacion | date: 'yyyy-MM-dd HH:mm' }}
+          </td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: bold;">
+            {{ obtenerEdad(u.fechaNacimiento) || '-' }}
+          </td>
+          <td style="padding: 10px; border: 1px solid #ddd;">{{ u.horaDesayuno || '-' }}</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">{{ u.nombrePuesto || 'Ninguno' }}</td>
+          <td style="padding: 10px; border: 1px solid #ddd; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" [title]="u.direccionPrincipalName || ''">
+            {{ u.direccionPrincipalName || '-' }}
+          </td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
+            {{ u.contadorDireccionesExtra || 0 }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="mostrarModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+    <div style="background: white; width: 700px; padding: 20px; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.25);">
+      <h3 style="margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 8px; color: #333;">{{ modalTitulo }}</h3>
+      
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
+        <div>
+          <label style="display:block; font-size: 11px; font-weight: bold; margin-bottom: 2px;">Username</label>
+          <input type="text" [(ngModel)]="usuarioForm.nickUsuario" style="width:100%; padding: 4px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+        <div>
+          <label style="display:block; font-size: 11px; font-weight: bold; margin-bottom: 2px;">Password</label>
+          <input type="password" [(ngModel)]="usuarioForm.contrasena" style="width:100%; padding: 4px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+        <div>
+          <label style="display:block; font-size: 11px; font-weight: bold; margin-bottom: 2px;">Is Admin</label>
+          <input type="checkbox" [(ngModel)]="usuarioForm.esAdmin" style="margin-top: 6px; transform: scale(1.1);">
+        </div>
+        <div>
+          <label style="display:block; font-size: 11px; font-weight: bold; margin-bottom: 2px;">First Name</label>
+          <input type="text" [(ngModel)]="usuarioForm.nombre" style="width:100%; padding: 4px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+        <div>
+          <label style="display:block; font-size: 11px; font-weight: bold; margin-bottom: 2px;">First Surname</label>
+          <input type="text" [(ngModel)]="usuarioForm.primerApellido" style="width:100%; padding: 4px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+        <div>
+          <label style="display:block; font-size: 11px; font-weight: bold; margin-bottom: 2px;">Second Surname</label>
+          <input type="text" [(ngModel)]="usuarioForm.segundoApellido" style="width:100%; padding: 4px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+        <div>
+          <label style="display:block; font-size: 11px; font-weight: bold; margin-bottom: 2px;">Birth Date</label>
+          <input type="date" [(ngModel)]="usuarioForm.fechaNacimiento" style="width:100%; padding: 3px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+        <div>
+          <label style="display:block; font-size: 11px; font-weight: bold; margin-bottom: 2px;">Gender</label>
+          <select [(ngModel)]="usuarioForm.idGenero" style="width:100%; padding: 4px; border: 1px solid #ccc; border-radius: 4px;">
+            <option *ngFor="let g of listaGeneros" [value]="g.id">{{ g.nombre }}</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block; font-size: 11px; font-weight: bold; margin-bottom: 2px;">Job Position</label>
+          <select [(ngModel)]="usuarioForm.idPuesto" style="width:100%; padding: 4px; border: 1px solid #ccc; border-radius: 4px;">
+            <option [value]="null">Ninguno</option>
+            <option *ngFor="let p of listaPuestos" [value]="p.id">{{ p.nombre }}</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block; font-size: 11px; font-weight: bold; margin-bottom: 2px;">Breakfast Time (HH:mm)</label>
+          <input type="text" placeholder="09:15" [(ngModel)]="usuarioForm.horaDesayuno" style="width:100%; padding: 4px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+      </div>
+
+      <h4 style="margin: 10px 0 5px 0; color: #444; border-top: 1px solid #eee; padding-top: 8px;">Addresses (Inline Management)</h4>
+      
+      <div style="display: flex; gap: 8px; margin-bottom: 8px; background: #fdfdfd; padding: 8px; border: 1px solid #eee; border-radius: 4px; align-items: flex-end;">
+        <div style="flex: 2;">
+          <label style="display:block; font-size: 11px; color:#555;">Street Name</label>
+          <input type="text" [(ngModel)]="direccionInputCalle" style="width:100%; padding: 4px; border: 1px solid #ccc; border-radius: 4px; font-size:12px;">
+        </div>
+        <div style="flex: 1;">
+          <label style="display:block; font-size: 11px; color:#555;">Number</label>
+          <input type="number" [(ngModel)]="direccionInputNumero" style="width:100%; padding: 4px; border: 1px solid #ccc; border-radius: 4px; font-size:12px;">
+        </div>
+        <div style="display: flex; gap: 4px;">
+          <button type="button" (click)="agregarDireccionLinea()" style="padding: 5px 8px; background:#0275d8; color:white; border:none; border-radius:4px; cursor:pointer; font-size:11px;">Create</button>
+          <button type="button" (click)="modificarDireccionLinea()" [disabled]="direccionSeleccionadaIndex === null" style="padding: 5px 8px; background:#f0ad4e; color:white; border:none; border-radius:4px; cursor:pointer; font-size:11px;">Update</button>
+          <button type="button" (click)="eliminarDireccionLinea()" [disabled]="direccionSeleccionadaIndex === null" style="padding: 5px 8px; background:#d9534f; color:white; border:none; border-radius:4px; cursor:pointer; font-size:11px;">Borrar</button>
+        </div>
+      </div>
+
+      <div style="max-height: 100px; overflow-y: auto; border: 1px solid #ccc; border-radius: 4px;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
+          <thead style="background-color: #cc0000; color: white; position: sticky; top: 0; z-index: 5;">
+            <tr>
+              <th style="padding: 5px; border: 1px solid #ddd; text-align: center; width: 50px;">Select</th>
+              <th style="padding: 5px; border: 1px solid #ddd; text-align: center; width: 50px;">Main</th>
+              <th style="padding: 5px; border: 1px solid #ddd;">Street Name</th>
+              <th style="padding: 5px; border: 1px solid #ddd; width: 80px;">Number</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let d of listaDireccionesModal; let idx = index" (click)="seleccionarDireccionFila(idx)" [style.background-color]="idx === direccionSeleccionadaIndex ? '#ebf3fc' : ''" style="border-bottom: 1px solid #eee; cursor: pointer;">
+              <td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><input type="radio" name="modalDirSelec" [checked]="idx === direccionSeleccionadaIndex"></td>
+              <td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><input type="radio" name="modalDirPrincipal" [checked]="d.esPrincipal" (change)="marcarDireccionPrincipal(idx)"></td>
+              <td style="padding: 5px; border: 1px solid #ddd;">{{ d.nombreCalle }}</td>
+              <td style="padding: 5px; border: 1px solid #ddd;">{{ d.numeroCalle || '-' }}</td>
+            </tr>
+            <tr *ngIf="listaDireccionesModal.length === 0">
+              <td colspan="4" style="text-align: center; color: #999; padding: 8px;">Sin direcciones asignadas todavía.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #eee; margin-top: 15px; padding-top: 10px;">
+        <button type="button" (click)="ejecutarCancelar()" style="padding: 6px 14px; background-color: #777; color: white; border: none; border-radius: 4px; cursor: pointer; font-size:13px;">Cancel</button>
+        <button type="button" (click)="ejecutarGuardar()" style="padding: 6px 14px; background-color: #0275d8; color: white; border: none; border-radius: 4px; cursor: pointer; font-size:13px; font-weight: bold;">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="mostrarModalBorrar" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; justify-content: center; align-items: center; z-index: 1010;">
+    <div style="background: white; width: 420px; padding: 20px; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); text-align: center;">
+      <p style="font-size: 15px; color: #333; margin-bottom: 20px; line-height: 1.4;">
+        ¿Estás seguro de que deseas eliminar el usuario seleccionado?
+      </p>
+      <div style="display: flex; justify-content: center; gap: 12px;">
+        <button type="button" (click)="cancelarBorrar()" style="padding: 8px 16px; background-color: #aaa; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;">Cancelar</button>
+        <button type="button" (click)="confirmarBorrar()" style="padding: 8px 16px; background-color: #d9534f; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: bold;">Sí</button>
+      </div>
+    </div>
+  </div>
+
+</div>

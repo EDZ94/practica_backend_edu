@@ -1,0 +1,448 @@
+{
+  "info": {
+    "_postman_id": "5968206d-5eba-4f37-8272-e8633aad0fad",
+    "name": "Practica Final - Gestión de Usuarios",
+    "description": "Colección completa con todos los endpoints requeridos por el enunciado y las validaciones del ejercicio 2.3.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52916255",
+    "_collection_link": "https://go.postman.co/collection/52916255-5968206d-5eba-4f37-8272-e8633aad0fad?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "1. Usuarios - Iniciar Sesión (POST)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"username\": \"MAR\",\n    \"password\": \"simplepassword\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/usuarios/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "usuarios",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Usuarios - Obtener Todos (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/usuarios?nickUsuario=MAR&nickContraseña=simplepassword",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "usuarios"
+          ],
+          "query": [
+            {
+              "key": "nickUsuario",
+              "value": "MAR"
+            },
+            {
+              "key": "nickContraseña",
+              "value": "simplepassword"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Usuarios - Obtener por ID (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/usuarios/1?nickUsuario=MAR&nickContraseña=simplepassword",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "usuarios",
+            "1"
+          ],
+          "query": [
+            {
+              "key": "nickUsuario",
+              "value": "MAR"
+            },
+            {
+              "key": "nickContraseña",
+              "value": "simplepassword"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. Usuarios - Crear Nuevo (POST)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"nickUsuario\": \"NUEVO\",\n    \"contrasena\": \"password123\",\n    \"nombre\": \"Pepe\",\n    \"primerApellido\": \"Perez\",\n    \"fechaNacimiento\": \"1995-05-10\",\n    \"idGenero\": 1,\n    \"esAdmin\": false\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/usuarios?nickUsuario=MAR&nickContraseña=simplepassword",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "usuarios"
+          ],
+          "query": [
+            {
+              "key": "nickUsuario",
+              "value": "MAR"
+            },
+            {
+              "key": "nickContraseña",
+              "value": "simplepassword"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5. Usuarios - Actualizar (PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"nickUsuario\": \"MAR_MODIFICADO\",\n    \"contrasena\": \"simplepassword\",\n    \"nombre\": \"Miguel Angel\",\n    \"primerApellido\": \"Rosales\",\n    \"fechaNacimiento\": \"1981-12-18\",\n    \"idGenero\": 1,\n    \"esAdmin\": true\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/usuarios/1?nickUsuario=MAR&nickContraseña=simplepassword",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "usuarios",
+            "1"
+          ],
+          "query": [
+            {
+              "key": "nickUsuario",
+              "value": "MAR"
+            },
+            {
+              "key": "nickContraseña",
+              "value": "simplepassword"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "6. Usuarios - Eliminar (DELETE)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/usuarios/1?nickUsuario=MAR&nickContraseña=simplepassword",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "usuarios",
+            "1"
+          ],
+          "query": [
+            {
+              "key": "nickUsuario",
+              "value": "MAR"
+            },
+            {
+              "key": "nickContraseña",
+              "value": "simplepassword"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "7. Direcciones - Obtener por Usuario (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/direcciones/usuario/1?nickUsuario=MAR&nickContraseña=simplepassword",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "direcciones",
+            "usuario",
+            "1"
+          ],
+          "query": [
+            {
+              "key": "nickUsuario",
+              "value": "MAR"
+            },
+            {
+              "key": "nickContraseña",
+              "value": "simplepassword"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "8. Direcciones - Obtener por ID (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/direcciones/1?nickUsuario=MAR&nickContraseña=simplepassword",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "direcciones",
+            "1"
+          ],
+          "query": [
+            {
+              "key": "nickUsuario",
+              "value": "MAR"
+            },
+            {
+              "key": "nickContraseña",
+              "value": "simplepassword"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "9. Direcciones - Crear Nueva (POST)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"nombreCalle\": \"Calle Falsa\",\n    \"numeroCalle\": 123,\n    \"idUsuario\": 1,\n    \"esPrincipal\": false\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/direcciones?nickUsuario=MAR&nickContraseña=simplepassword",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "direcciones"
+          ],
+          "query": [
+            {
+              "key": "nickUsuario",
+              "value": "MAR"
+            },
+            {
+              "key": "nickContraseña",
+              "value": "simplepassword"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "10. Direcciones - Actualizar (PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"nombreCalle\": \"Calle Modificada\",\n    \"numeroCalle\": 456,\n    \"idUsuario\": 1,\n    \"esPrincipal\": true\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/direcciones/1?nickUsuario=MAR&nickContraseña=simplepassword",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "direcciones",
+            "1"
+          ],
+          "query": [
+            {
+              "key": "nickUsuario",
+              "value": "MAR"
+            },
+            {
+              "key": "nickContraseña",
+              "value": "simplepassword"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "11. Direcciones - Eliminar (DELETE)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/direcciones/1?nickUsuario=MAR&nickContraseña=simplepassword",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "direcciones",
+            "1"
+          ],
+          "query": [
+            {
+              "key": "nickUsuario",
+              "value": "MAR"
+            },
+            {
+              "key": "nickContraseña",
+              "value": "simplepassword"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "12. Maestros - Obtener Géneros (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/usuarios/generos?nickUsuario=MAR&nickContraseña=simplepassword",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "usuarios",
+            "generos"
+          ],
+          "query": [
+            {
+              "key": "nickUsuario",
+              "value": "MAR"
+            },
+            {
+              "key": "nickContraseña",
+              "value": "simplepassword"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "13. Maestros - Obtener Puestos (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/usuarios/puestos?nickUsuario=MAR&nickContraseña=simplepassword",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "usuarios",
+            "puestos"
+          ],
+          "query": [
+            {
+              "key": "nickUsuario",
+              "value": "MAR"
+            },
+            {
+              "key": "nickContraseña",
+              "value": "simplepassword"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
